@@ -8,7 +8,6 @@ This is a front-end application for a real-time chatting application
 - Apollo GraphQL (Boost, Hooks)
 - Material UI
 - Styled-Component with SCSS
-- react-testing-library with Jest
 - Firebase (Storage)
 
 ##### Functionality
