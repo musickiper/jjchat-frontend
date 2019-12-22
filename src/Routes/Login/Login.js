@@ -44,11 +44,22 @@ const LOG_USER_IN = gql`
     }
 `;
 
-const Login = ({history}) => {
+const CREATE_USER = gql`
+    mutation  createUser($username: String!, $password: String!, $nickname: String) {
+        createUser(username:$username, password:$password, nickname:$nickname) {
+            id
+        }
+    }
+`;
+
+const Login = () => {
+    const [action, setAction] = useState("login");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [nickname, setNickname] = useState("");
     const confirmUser = useMutation(CONFIRM_USER, {variables: {username, password}})[0];
     const logUserIn = useMutation(LOG_USER_IN)[0];
+    const createUser = useMutation(CREATE_USER, {variables: {username, password, nickname}})[0];
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -65,44 +76,102 @@ const Login = ({history}) => {
         } catch (e) {
             setUsername("");
             setPassword("");
-            console.error(e);
+            toast.error("Wrong USERNAME / PASSWORD");
         }
     };
 
-    const handleSignup = () => {
-        history.push("/signup");
+    const handleSignup = async (e) => {
+        e.preventDefault();
+        if (!username || !password) {
+            toast.error("You must fill out USERNAME / PASSWORD");
+            setUsername("");
+            setPassword("");
+            setNickname("");
+            return;
+        }
+        try {
+            await createUser();
+            toast.success("Account is created");
+            setAction("login");
+        } catch (e) {
+            setUsername("");
+            setPassword("");
+            setNickname("");
+            console.error(e);
+        }
     };
 
     return (
         <Container>
             <FormContainer>
-                <form noValidate autoComplete="off" onSubmit={handleLogin}>
-                    <FormControl>
-                        <TextField
-                            id="outlined-helperText"
-                            label="USERNAME"
-                            variant="outlined"
-                            value={username}
-                            required={true}
-                            onChange={e => setUsername(e.target.value)}
-                        />
-                    </FormControl>
-                    <FormControl>
-                        <TextField
-                            id="outlined-password-input"
-                            label="Password"
-                            type="password"
-                            autoComplete="current-password"
-                            variant="outlined"
-                            value={password}
-                            required={true}
-                            onChange={e => setPassword(e.target.value)}
-                        />
-                    </FormControl>
-                    <Button type={"submit"} variant="contained" color="primary">Log In</Button>
-                </form>
+                {action === "login" && (
+                    <form noValidate autoComplete="off" onSubmit={handleLogin}>
+                        <FormControl>
+                            <TextField
+                                label="USERNAME"
+                                variant="outlined"
+                                value={username}
+                                autoComplete={"off"}
+                                required={true}
+                                onChange={e => setUsername(e.target.value)}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <TextField
+                                label="PASSWORD"
+                                type="password"
+                                variant="outlined"
+                                value={password}
+                                autoComplete={"off"}
+                                required={true}
+                                onChange={e => setPassword(e.target.value)}
+                            />
+                        </FormControl>
+                        <Button type={"submit"} variant="contained" color="primary">Log In</Button>
+                    </form>
+                )}
+                {action === "signup" && (
+                    <form noValidate autoComplete="off" onSubmit={handleSignup}>
+                        <FormControl>
+                            <TextField
+                                label="USERNAME"
+                                variant="outlined"
+                                value={username}
+                                required={true}
+                                autoComplete={"off"}
+                                onChange={e => setUsername(e.target.value)}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <TextField
+                                label="PASSWORD"
+                                type="password"
+                                variant="outlined"
+                                value={password}
+                                required={true}
+                                autoComplete={"off"}
+                                onChange={e => setPassword(e.target.value)}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <TextField
+                                label="NICKNAME"
+                                variant="outlined"
+                                value={nickname}
+                                autoComplete={"off"}
+                                onChange={e => setNickname(e.target.value)}
+                            />
+                        </FormControl>
+                        <Button type={"submit"} variant="contained" color="primary">Sign Up</Button>
+                    </form>
+                )}
             </FormContainer>
-            <Button onClick={handleSignup}>Sign Up</Button>
+            {action === "login" && (
+                < Button onClick={() => setAction("signup")}>Sign Up</Button>
+            )}
+            {action === "signup" && (
+                < Button onClick={() => setAction("login")}>Log In</Button>
+            )}
         </Container>
     );
 };
