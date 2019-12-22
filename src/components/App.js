@@ -7,6 +7,7 @@ import AppRouter from "./Router";
 import Theme from "../Styles/Theme";
 import GlobalStyles from "../Styles/GlobalStyles";
 import {ToastContainer, toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Wrapper = styled.div``;
 
