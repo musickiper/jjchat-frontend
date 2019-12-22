@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import Friends from "../../Routes/Friends";
-import Login from "../../Routes/Login";
+import Friends from "../Routes/Friends";
+import Login from "../Routes/Login";
 
 const LoggedInRoutes = () => (
   <Switch>
