@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-import {FormControl, TextField, Button} from "@material-ui/core";
 import {toast} from "react-toastify";
 import {gql} from "apollo-boost";
 import {useMutation} from "react-apollo-hooks";
@@ -105,72 +104,28 @@ const Login = () => {
         <Container>
             <FormContainer>
                 {action === "login" && (
-                    <form noValidate autoComplete="off" onSubmit={handleLogin}>
-                        <FormControl>
-                            <TextField
-                                label="USERNAME"
-                                variant="outlined"
-                                value={username}
-                                autoComplete={"off"}
-                                required={true}
-                                onChange={e => setUsername(e.target.value)}
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <TextField
-                                label="PASSWORD"
-                                type="password"
-                                variant="outlined"
-                                value={password}
-                                autoComplete={"off"}
-                                required={true}
-                                onChange={e => setPassword(e.target.value)}
-                            />
-                        </FormControl>
-                        <Button type={"submit"} variant="contained" color="primary">Log In</Button>
+                    <form onSubmit={handleLogin}>
+                        <input value={username} required={true} onChange={e => setUsername(e.target.value)}/>
+                        <input type="password" value={password} required={true}
+                               onChange={e => setPassword(e.target.value)}/>
+                        <button type={"submit"}>Log In</button>
                     </form>
                 )}
                 {action === "signup" && (
-                    <form noValidate autoComplete="off" onSubmit={handleSignup}>
-                        <FormControl>
-                            <TextField
-                                label="USERNAME"
-                                variant="outlined"
-                                value={username}
-                                required={true}
-                                autoComplete={"off"}
-                                onChange={e => setUsername(e.target.value)}
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <TextField
-                                label="PASSWORD"
-                                type="password"
-                                variant="outlined"
-                                value={password}
-                                required={true}
-                                autoComplete={"off"}
-                                onChange={e => setPassword(e.target.value)}
-                            />
-                        </FormControl>
-                        <FormControl>
-                            <TextField
-                                label="NICKNAME"
-                                variant="outlined"
-                                value={nickname}
-                                autoComplete={"off"}
-                                onChange={e => setNickname(e.target.value)}
-                            />
-                        </FormControl>
-                        <Button type={"submit"} variant="contained" color="primary">Sign Up</Button>
+                    <form onSubmit={handleSignup}>
+                        <input value={username} required={true} onChange={e => setUsername(e.target.value)}/>
+                        < input type="password" value={password} required={true}
+                                onChange={e => setPassword(e.target.value)}/>
+                        <input value={nickname} onChange={e => setNickname(e.target.value)}/>
+                        <button type={"submit"}>Sign Up</button>
                     </form>
                 )}
             </FormContainer>
             {action === "login" && (
-                < Button onClick={() => setAction("signup")}>Sign Up</Button>
+                <button onClick={() => setAction("signup")}>Sign Up</button>
             )}
             {action === "signup" && (
-                < Button onClick={() => setAction("login")}>Log In</Button>
+                <button onClick={() => setAction("login")}>Log In</button>
             )}
         </Container>
     );
