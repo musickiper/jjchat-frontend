@@ -1,9 +1,9 @@
 import React, {useState} from "react";
 import styled from "styled-components";
-import {FormControl, TextField, ButtonGroup, Button} from "@material-ui/core";
+import {FormControl, TextField, Button} from "@material-ui/core";
 import {toast} from "react-toastify";
 import {gql} from "apollo-boost";
-import {useMutation, useQuery} from "react-apollo-hooks";
+import {useMutation} from "react-apollo-hooks";
 
 // Styled Components
 const Container = styled.div`
@@ -47,7 +47,7 @@ const LOG_USER_IN = gql`
 const Login = ({history}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const confirmUser = useMutation(CONFIRM_USER, {variables:{username,password}})[0];
+    const confirmUser = useMutation(CONFIRM_USER, {variables: {username, password}})[0];
     const logUserIn = useMutation(LOG_USER_IN)[0];
 
     const handleLogin = async (e) => {
@@ -60,8 +60,8 @@ const Login = ({history}) => {
             return;
         }
         try {
-            const {data:{confirmUser:token}} = await confirmUser();
-            await logUserIn({variables:{token}});
+            const {data: {confirmUser: token}} = await confirmUser();
+            await logUserIn({variables: {token}});
         } catch (e) {
             setUsername("");
             setPassword("");
