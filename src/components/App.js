@@ -9,7 +9,11 @@ import GlobalStyles from "../Styles/GlobalStyles";
 import {ToastContainer, toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  margin: 0 auto;
+  width: 100%;
+  height: ${props => props.height - 20}px;
+`;
 
 const QUERY = gql`
     {
@@ -18,13 +22,14 @@ const QUERY = gql`
 `;
 
 const App = () => {
+    const height = window.innerHeight;
     const {
         data: {isLoggedIn}
     } = useQuery(QUERY);
 
     return (
         <ThemeProvider theme={Theme}>
-            <Wrapper>
+            <Wrapper height={height}>
                 <GlobalStyles/>
                 <AppRouter isLoggedIn={isLoggedIn}/>
                 <ToastContainer position={toast.POSITION.BOTTOM_LEFT}/>

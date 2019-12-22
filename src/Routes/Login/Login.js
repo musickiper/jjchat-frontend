@@ -5,26 +5,47 @@ import {gql} from "apollo-boost";
 import {useMutation} from "react-apollo-hooks";
 
 // Styled Components
-const Container = styled.div`
+const Wrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  cursor:${props => props.isLoading ? "wait" : "default"};
 `;
 
 const FormContainer = styled.div`
-  margin-bottom: 5px;
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    div {
-      margin-bottom: 5px;
-    }
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Input = styled.input`
+  height: ${props => props.theme.inputHeight};
+  width: 30vh;
+  border-radius: ${props => props.theme.borderRadius};
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+`;
+
+const Button = styled.button`
+  width: 10vh;
+  height: ${props => props.theme.buttonHeight};
+  border-radius: ${props => props.theme.borderRadius};
+  background-color: ${props => props.theme.blueColor};
+  color: white;
+  &:active {
+    background-color: ${props => props.theme.greyColor};
   }
+`;
+
+const Link = styled.div`
+  margin-top: 2vh;
+  font-size: 0.7rem;
 `;
 
 // GraphQL Queries
@@ -56,6 +77,7 @@ const Login = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [nickname, setNickname] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const confirmUser = useMutation(CONFIRM_USER, {variables: {username, password}})[0];
     const logUserIn = useMutation(LOG_USER_IN)[0];
     const createUser = useMutation(CREATE_USER, {variables: {username, password, nickname}})[0];
@@ -71,7 +93,9 @@ const Login = () => {
         }
         try {
             const {data: {confirmUser: token}} = await confirmUser();
+            setIsLoading(true);
             await logUserIn({variables: {token}});
+            setIsLoading(false);
         } catch (e) {
             setUsername("");
             setPassword("");
@@ -101,33 +125,33 @@ const Login = () => {
     };
 
     return (
-        <Container>
+        <Wrapper isLoading={isLoading}>
             <FormContainer>
                 {action === "login" && (
-                    <form onSubmit={handleLogin}>
-                        <input value={username} required={true} onChange={e => setUsername(e.target.value)}/>
-                        <input type="password" value={password} required={true}
+                    <Form onSubmit={handleLogin}>
+                        <Input value={username} placeholder={"USERNAME"} onChange={e => setUsername(e.target.value)}/>
+                        <Input type="password" value={password} placeholder={"PASSWORD"}
                                onChange={e => setPassword(e.target.value)}/>
-                        <button type={"submit"}>Log In</button>
-                    </form>
+                        <Button type={"submit"}>Log In</Button>
+                    </Form>
                 )}
                 {action === "signup" && (
-                    <form onSubmit={handleSignup}>
-                        <input value={username} required={true} onChange={e => setUsername(e.target.value)}/>
-                        < input type="password" value={password} required={true}
-                                onChange={e => setPassword(e.target.value)}/>
-                        <input value={nickname} onChange={e => setNickname(e.target.value)}/>
-                        <button type={"submit"}>Sign Up</button>
-                    </form>
+                    <Form onSubmit={handleSignup}>
+                        <Input value={username} placeholder={"USERNAME"} onChange={e => setUsername(e.target.value)}/>
+                        <Input type="password" placeholder={"PASSWORD"} value={password}
+                               onChange={e => setPassword(e.target.value)}/>
+                        <Input value={nickname} placeholder={"NICKNAME"} onChange={e => setNickname(e.target.value)}/>
+                        <Button type={"submit"}>Sign Up</Button>
+                    </Form>
                 )}
             </FormContainer>
             {action === "login" && (
-                <button onClick={() => setAction("signup")}>Sign Up</button>
+                <Link onClick={() => setAction("signup")}>Sign Up</Link>
             )}
             {action === "signup" && (
-                <button onClick={() => setAction("login")}>Log In</button>
+                <Link onClick={() => setAction("login")}>Log In</Link>
             )}
-        </Container>
+        </Wrapper>
     );
 };
 
