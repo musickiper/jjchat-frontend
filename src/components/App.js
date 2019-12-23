@@ -10,6 +10,8 @@ import {ToastContainer, toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
   margin: 0 auto;
   width: 100%;
   height: ${props => props.height - 20}px;
