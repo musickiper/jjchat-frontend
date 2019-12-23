@@ -91,7 +91,6 @@ const Friends = ({history}) => {
         const filteredFriends = friends.filter(friend => {
             return friend.username.startsWith(term);
         });
-        console.dir(filteredFriends);
         return (
             <Wrapper>
                 <Header title={"CHATTING"}/>
