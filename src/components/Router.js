@@ -1,13 +1,13 @@
 import React from "react";
 import {Route, Switch} from "react-router-dom";
 import Login from "../Routes/Login";
-import Profile from "../Routes/Profile";
-import FriendsContainer from "../Routes/Friends/FriendsContainer";
+import ProfileContainer from "../Routes/Profile";
+import FriendsContainer from "../Routes/Friends";
 
 const LoggedInRoutes = () => (
     <Switch>
         <Route exact path={"/"} component={FriendsContainer}/>
-        <Route path={"/user/:userId"} component={Profile}/>
+        <Route path={"/user/:userId"} component={ProfileContainer}/>
     </Switch>
 );
 
