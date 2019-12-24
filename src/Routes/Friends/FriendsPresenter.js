@@ -1,26 +1,64 @@
-import React, {useState} from "react";
+import React from "react";
 import styled from "styled-components";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
-import {gql} from "apollo-boost";
-import {useQuery} from "react-apollo-hooks";
+import AddIcon from '@material-ui/icons/Add';
+import PeopleIcon from '@material-ui/icons/People';
+import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
 
 const Wrapper = styled.div`
-  width: 400px;
-  height:90%;
+  width: 50vh;
+  height: 80vh;
+  border: 1px solid ${props => props.theme.greyColor};
+`;
+
+const Header = styled.div`
+  width: 100%;
+  height: 20vh;
+  display: flex;
+  flex-direction: column;
+  padding: 1vh;
+  border-bottom: 1px solid ${props => props.theme.greyColor};
+`;
+
+const TitleBox = styled.div`
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const Input = styled.input`
-  width: 400px;
-  height: 30px;
+  width:100%;
+  height: ${props => props.theme.inputHeight};
   border-radius: ${props => props.theme.borderRadius};
   padding-left: 1rem;
 `;
 
-const FriendsList = styled.div`
-  height: ${props => props.height}px;
-  margin-top: 2rem;
+const Avatar = styled.div`
+  width:8vh;
+  height:8vh;
+  background-color: ${props => props.theme.greyColor};
+  border-radius: 50%;
+  img {
+    width:100%;
+    height: 100%;
+    border-radius: 50%;
+    cursor: pointer;
+    &:hover {
+      opacity: 50%;
+    }
+  }
+`;
+
+const Title = styled.div`
+  width: 20vh;
+`;
+
+const Body = styled.div`
+  width: 100%;
+  height: 48vh;
   overflow: scroll;
+  padding: 1vh;
 `;
 
 const Friend = styled.div`
@@ -29,89 +67,73 @@ const Friend = styled.div`
   align-items: center;
   margin-bottom: 1rem;
   padding: 1rem;
-  border-radius: ${props => props.theme.borderRadius};
-  border-bottom: 1px solid ${props => props.theme.greyColor};
+  border-bottom: 1px dotted ${props => props.theme.greyColor};
   &:hover {
     background-color: ${props => props.theme.lightGreyColor};
     cursor: pointer;
   }
 `;
 
-const Avatar = styled.div`
+const Footer = styled.div`
+  width: 100%;
+  height: 12vh;
+  border-top: 1px solid ${props => props.theme.greyColor};
   display: flex;
-  justify-content: center;
   align-items: center;
-  width:40px;
-  height: 40px;
-  background-color: ${props => props.theme.greyColor};
-  border-radius: 50%;
-  img {
-    width:100%;
-    height: 100%;
-    border-radius: 50%;
-  }
+  justify-content: space-around;
 `;
 
-const Username = styled.div``;
+const Username = styled.div`
+  font-size: 0.7rem;
+`;
 
 const Bio = styled.div`
+  font-size: 0.5rem;
   color: ${props => props.theme.greyColor};
 `;
 
-const ME = gql`
-    query me {
-        me {
-            id
-            friends {
-                id
-                username
-                nickname
-                bio
-                avatar
-            }
-        }
-    }
+const Link = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 8vh;
+  height: 8vh;
+  background-color: ${props => props.theme.lightGreyColor};
+  border-radius: 50%;
+  &:hover {
+    cursor: pointer;
+    opacity: 50%;
+  }
 `;
 
-const Friends = ({history}) => {
-    const listHeight = window.innerHeight - 200;
-    const [term, setTerm] = useState("");
-    const {data, loading} = useQuery(ME);
+const FriendsPresenter = ({myId, avatar, friends, term, handleChange, handleClick}) => {
+    const title = "CHATTING";
 
-    const handleTerm = (e) => {
-        setTerm(e.target.value);
-    };
-
-    const handleFriendClick = (id) => {
-        history.push(`/user/${id}`);
-    };
-
-    if (!loading) {
-        const {friends} = data.me;
-        const filteredFriends = friends.filter(friend => {
-            return friend.username.startsWith(term);
-        });
-        return (
-            <Wrapper>
-                <Header title={"CHATTING"}/>
-                <Input placeholder={"Enter username"} value={term} onChange={handleTerm}/>
-                <FriendsList height={listHeight}>
-                    {filteredFriends.map(({id, username, nickname, bio, avatar}) =>
-                        <Friend key={id} onClick={() => handleFriendClick(id)}>
-                            <Avatar><img src={avatar} alt={""}/></Avatar>
-                            <Username>{nickname ? nickname : username}</Username>
-                            <Bio>{bio}</Bio>
-                        </Friend>
-                    )}
-                </FriendsList>
-                <Footer/>
-            </Wrapper>
-        );
-    } else {
-        return (
-            <Wrapper>Loading...</Wrapper>
-        )
-    }
+    return (
+        <Wrapper>
+            <Header>
+                <TitleBox>
+                    <Avatar onClick={() => handleClick(`/user/${myId}`)}><img src={avatar} alt={""}/></Avatar>
+                    <Title>{title}</Title>
+                    <Link onClick={() => handleClick('/addFriend')}><AddIcon/></Link>
+                </TitleBox>
+                <Input placeholder={"Search User"} value={term} onChange={handleChange}/>
+            </Header>
+            <Body>
+                {friends.map(({id, username, nickname, bio, avatar}) =>
+                    <Friend key={id} onClick={() => handleClick(`/user/${id}`)}>
+                        <Avatar><img src={avatar} alt={""}/></Avatar>
+                        <Username>{nickname ? nickname : username}</Username>
+                        <Bio>{bio}</Bio>
+                    </Friend>
+                )}
+            </Body>
+            <Footer>
+                <Link onclick={() => handleClick("/")}><PeopleIcon/></Link>
+                <Link onClick={() => handleClick("/rooms")}><ChatBubbleIcon/></Link>
+            </Footer>
+        </Wrapper>
+    )
 };
 
-export default Friends;
+export default FriendsPresenter;

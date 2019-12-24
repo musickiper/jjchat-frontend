@@ -6,4 +6,6 @@ export default {
     inputHeight: "36px",
     buttonHeight: "20px",
     borderRadius: "50px",
+    imageWidth: "40px",
+    imageHeight: "40px"
 };

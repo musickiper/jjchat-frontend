@@ -12,9 +12,10 @@ import 'react-toastify/dist/ReactToastify.css';
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   margin: 0 auto;
   width: 100%;
-  height: ${props => props.height - 20}px;
+  height: ${props => props.height}px;
 `;
 
 const QUERY = gql`
