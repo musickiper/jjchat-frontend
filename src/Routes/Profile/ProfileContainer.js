@@ -25,6 +25,10 @@ const UPDATE_USER = gql`
     mutation updateUser($nickname:String, $bio:String, $avatar:String) {
         updateUser(nickname:$nickname,bio:$bio,avatar:$avatar) {
             id
+            username
+            nickname
+            bio
+            avatar
         }
     }
 `;
@@ -37,10 +41,10 @@ const LOG_USER_OUT = gql`
 
 const ProfileContainer = ({match, history}) => {
     const {userId} = match.params;
-    const [newNickname, setNewNickname] = useState(undefined);
-    const [newBio, setNewBio] = useState(undefined);
-    const [newImg, setNewImg] = useState(undefined);
-    const [newAvatar, setNewAvatar] = useState(undefined);
+    const [newNickname, setNewNickname] = useState("");
+    const [newBio, setNewBio] = useState("");
+    const [newImg, setNewImg] = useState("");
+    const [newAvatar, setNewAvatar] = useState("");
 
     // Queries
     // Get my info & user info from server
@@ -54,9 +58,9 @@ const ProfileContainer = ({match, history}) => {
     // Update user info using new data
     const updateUser = useMutation(UPDATE_USER, {
         variables: {
-            nickname: newNickname,
-            bio: newBio,
-            avatar: newAvatar
+            nickname: newNickname === "" ? undefined : newNickname,
+            bio: newBio === "" ? undefined : newNickname,
+            avatar: newAvatar === "" ? undefined : newAvatar
         }
     })[0];
 
@@ -68,7 +72,7 @@ const ProfileContainer = ({match, history}) => {
     const handleChooseImg = async (e) => {
         const file = e.target.files[0];
         // Check file type
-        if(file.type.split('/')[0] === 'image'){
+        if (file.type.split('/')[0] === 'image') {
             setNewImg(e.target.files[0]);
             toast.success("Image file is completely picked");
         } else {
@@ -80,7 +84,7 @@ const ProfileContainer = ({match, history}) => {
     const handleImgUpload = async () => {
         const url = await imageUpload(newImg);
         await setNewAvatar(url);
-        await setNewImg(undefined);
+        await setNewImg("");
     };
 
     // Update user profile using new data
@@ -88,10 +92,9 @@ const ProfileContainer = ({match, history}) => {
         try {
             await updateUser();
             toast.success("Profile completely updated");
-            setNewNickname(undefined);
             history.push("/");
             window.location.reload();
-        } catch(e) {
+        } catch (e) {
             toast.error("ProfilePresenter update failed");
         }
     };
@@ -126,10 +129,10 @@ const ProfileContainer = ({match, history}) => {
                 handleUpdateProfile={handleUpdateProfile}
                 logUserOut={logoutUser}
                 handleClick={handleClick}
-                />
+            />
         );
     } else {
-        return <CircularProgress color="secondary" />;
+        return <CircularProgress color="secondary"/>;
     }
 };
 
