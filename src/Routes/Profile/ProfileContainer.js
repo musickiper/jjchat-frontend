@@ -6,17 +6,17 @@ import {toast} from "react-toastify";
 import {imageUpload} from "../../utils";
 import ProfilePresenter from "./ProfilePresenter";
 
-const ME_AND_USER_BY_ID = gql`
+const USER_BY_ID_AND_ME = gql`
     query userById($userId: String!) {
-        me {
-            id
-        }
         userById(userId: $userId) {
             id
             username
             nickname
             bio
             avatar
+        }
+        me {
+            id
         }
     }
 `;
@@ -48,7 +48,7 @@ const ProfileContainer = ({match, history}) => {
 
     // Queries
     // Get my info & user info from server
-    const {data, loading} = useQuery(ME_AND_USER_BY_ID, {
+    const {data, loading} = useQuery(USER_BY_ID_AND_ME, {
         variables:
             {
                 userId: userId
@@ -59,7 +59,7 @@ const ProfileContainer = ({match, history}) => {
     const updateUser = useMutation(UPDATE_USER, {
         variables: {
             nickname: newNickname === "" ? undefined : newNickname,
-            bio: newBio === "" ? undefined : newNickname,
+            bio: newBio === "" ? undefined : newBio,
             avatar: newAvatar === "" ? undefined : newAvatar
         }
     })[0];

@@ -115,7 +115,7 @@ const FriendsPresenter = ({myId, avatar, friends, term, handleChange, handleClic
                 <TitleBox>
                     <Avatar onClick={() => handleClick(`/user/${myId}`)}><img src={avatar} alt={""}/></Avatar>
                     <Title>{title}</Title>
-                    <Link onClick={() => handleClick('/addFriend')}><AddIcon/></Link>
+                    <Link onClick={() => handleClick(`/addFriend`)}><AddIcon/></Link>
                 </TitleBox>
                 <Input placeholder={"Search User"} value={term} onChange={handleChange}/>
             </Header>
