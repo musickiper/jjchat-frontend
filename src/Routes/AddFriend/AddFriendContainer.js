@@ -5,6 +5,8 @@ import {useMutation, useQuery} from "react-apollo-hooks";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {toast} from "react-toastify";
 
+// Queries
+// Get all users and my info
 const ALL_USERS_AND_ME = gql`
     query allUsers {
         allUsers {
@@ -19,6 +21,7 @@ const ALL_USERS_AND_ME = gql`
     }
 `;
 
+// Add user to my friends list
 const ADD_FRIEND = gql`
     mutation addFriend($friendId: String!) {
         addFriend(friendId: $friendId){
