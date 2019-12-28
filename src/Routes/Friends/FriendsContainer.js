@@ -33,7 +33,7 @@ const FriendsContainer = ({history}) => {
         };
 
         const filteringFriends = (friends) => {
-            return friends.filter(friend => friend.username.startsWith(term));
+            return friends.filter(friend => friend.username.startsWith(term) || friend.nickname.startsWith(term));
         };
 
         if (!loading && data.me) {
