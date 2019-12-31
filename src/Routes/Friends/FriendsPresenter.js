@@ -129,7 +129,7 @@ const FriendsPresenter = ({myId, avatar, friends, term, handleChange, handleClic
                 )}
             </Body>
             <Footer>
-                <Link onclick={() => handleClick("/")}><PeopleIcon/></Link>
+                <Link onClick={() => handleClick("/")}><PeopleIcon/></Link>
                 <Link onClick={() => handleClick("/rooms")}><ChatBubbleIcon/></Link>
             </Footer>
         </Wrapper>
