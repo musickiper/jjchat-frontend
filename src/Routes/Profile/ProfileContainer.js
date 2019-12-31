@@ -33,6 +33,14 @@ const UPDATE_USER = gql`
     }
 `;
 
+const CREATE_ROOM = gql`
+    mutation createRoom($toIds:[String!]!) {
+        createRoom(toIds:$toIds) {
+            id
+        }
+    }
+`;
+
 const LOG_USER_OUT = gql`
     mutation logUserOut {
         logUserOut @client
@@ -66,6 +74,9 @@ const ProfileContainer = ({match, history}) => {
 
     // Logout
     const logUserOut = useMutation(LOG_USER_OUT)[0];
+
+    // Create Room
+    const createRoom = useMutation(CREATE_ROOM)[0];
 
     // Functions
     // Choose an image file to use it as an avatar
@@ -102,10 +113,23 @@ const ProfileContainer = ({match, history}) => {
     // Logout
     const logoutUser = () => logUserOut();
 
-    // Push to specific link
-    const handleClick = (link) => {
-        history.push(link);
-    };
+    // Create Room
+    const handleClick = async () => {
+            try {
+                const {
+                    data: {createRoom: {id}}
+                } = await createRoom({
+                    variables: {
+                        toIds: [data.me.id, userId]
+                    }
+                });
+                history.push(`/room/${id}`);
+            } catch
+                (e) {
+                console.error(e);
+            }
+        }
+    ;
 
     if (!loading && data.me && data.userById) {
         const {id: userId, username, nickname, bio, avatar} = data.userById;

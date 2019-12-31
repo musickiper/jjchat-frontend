@@ -88,7 +88,7 @@ const ProfilePresenter = ({
             )}
             {userId !== meId &&
             (
-                <Button onClick={() => handleClick(`/sendMessage/${userId}`)}>Send Message</Button>
+                <Button onClick={handleClick}>Create Room</Button>
             )}
         </Wrapper>
     );

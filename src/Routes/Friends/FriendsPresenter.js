@@ -123,7 +123,7 @@ const FriendsPresenter = ({myId, avatar, friends, term, handleChange, handleClic
                 {friends.map(({id, username, nickname, bio, avatar}) =>
                     <Friend key={id} onClick={() => handleClick(`/user/${id}`)}>
                         <Avatar><img src={avatar} alt={""}/></Avatar>
-                        <Username>{nickname ? nickname : username}</Username>
+                        <Username>{nickname !== username ? nickname : username}</Username>
                         <Bio>{bio}</Bio>
                     </Friend>
                 )}
