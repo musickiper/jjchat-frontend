@@ -6,6 +6,7 @@ import FriendsContainer from "../Routes/Friends";
 import AddFriendContainer from "../Routes/AddFriend";
 import RoomContainer from "../Routes/Room";
 import RoomsContainer from "../Routes/Rooms/RoomsContainer";
+import CreateRoom from "../Routes/CreateRoom";
 
 const LoggedInRoutes = () => (
     <Switch>
@@ -14,6 +15,7 @@ const LoggedInRoutes = () => (
         <Route path={"/addFriend"} component={AddFriendContainer}/>
         <Route path={"/room/:roomId"} component={RoomContainer}/>
         <Route path={"/rooms"} component={RoomsContainer}/>
+        <Route path={"/createRoom"} component={CreateRoom}/>
     </Switch>
 );
 
