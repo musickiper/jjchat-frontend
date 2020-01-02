@@ -3,6 +3,7 @@ import styled from "styled-components";
 import AddIcon from '@material-ui/icons/Add';
 import PeopleIcon from '@material-ui/icons/People';
 import ChatBubbleIcon from '@material-ui/icons/ChatBubble';
+import {Helmet} from 'react-helmet';
 
 const Wrapper = styled.div`
   width: 50vh;
@@ -111,6 +112,10 @@ const FriendsPresenter = ({myId, avatar, friends, term, handleChange, handleClic
 
     return (
         <Wrapper>
+            <Helmet>
+                <meta charSet={"utf-8"}/>
+                <title>Friends</title>
+            </Helmet>
             <Header>
                 <TitleBox>
                     <Avatar onClick={() => handleClick(`/user/${myId}`)}><img src={avatar} alt={""}/></Avatar>

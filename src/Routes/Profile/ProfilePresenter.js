@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import {Helmet} from "react-helmet";
 
 const Wrapper = styled.div`
   width: 50vh;
@@ -72,6 +73,10 @@ const ProfilePresenter = ({
                           }) => {
     return (
         <Wrapper>
+            <Helmet>
+                <meta charSet={"utf-8"}/>
+                <title>{nickname}</title>
+            </Helmet>
             <label htmlFor={"file-upload"}><Avatar><img src={avatar} alt={""}/></Avatar></label>
             <Input type={"file"} id={"file-upload"} onChange={handleChooseImg} hidden/>
             <TextBox>@ {username}</TextBox>

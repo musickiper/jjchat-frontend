@@ -1,6 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import {Helmet} from "react-helmet";
 
 const Wrapper = styled.div`
   width: 50vh;
@@ -127,6 +128,10 @@ const RoomPresenter = ({myId, parseTitle, parseTime, participants, messages, mes
 
     return (
         <Wrapper>
+            <Helmet>
+                <meta charSet={"utf-8"}/>
+                <title>Room</title>
+            </Helmet>
             <Header>
                 <Title>{parseTitle(myId, participants)}</Title>
                 <Exit onClick={handleClick}><ExitToAppIcon/></Exit>

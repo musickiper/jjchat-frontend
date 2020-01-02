@@ -3,6 +3,7 @@ import styled from "styled-components";
 import {toast} from "react-toastify";
 import {gql} from "apollo-boost";
 import {useMutation} from "react-apollo-hooks";
+import {Helmet} from "react-helmet";
 
 // Styled Components
 const Wrapper = styled.div`
@@ -126,6 +127,10 @@ const Login = () => {
 
     return (
         <Wrapper isLoading={isLoading}>
+            <Helmet>
+                <meta charSet={"utf-8"}/>
+                <title>Auth</title>
+            </Helmet>
             <FormContainer>
                 {action === "login" && (
                     <Form onSubmit={handleLogin}>

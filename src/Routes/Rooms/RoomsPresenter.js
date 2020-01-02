@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PeopleIcon from "@material-ui/icons/People";
 import AddIcon from '@material-ui/icons/Add';
+import {Helmet} from "react-helmet";
 
 const Wrapper = styled.div`
   width: 50vh;
@@ -105,6 +106,10 @@ const Link = styled.div`
 const RoomsPresenter = ({rooms, parseDate, handleClick}) => {
     return (
         <Wrapper>
+            <Helmet>
+                <meta charSet={"utf-8"}/>
+                <title>Rooms</title>
+            </Helmet>
             <Body>
                 {rooms.map(room => {
                     const {id, participants, messages, createdAt} = room;

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
+import {Helmet} from "react-helmet";
 
 const Wrapper = styled.div`
   width: 50vh;
@@ -72,6 +73,10 @@ const Button = styled.div`
 const CreateRoomPresenter = ({users, me, userIds, handleClick, handleSubmit}) => {
     return (
         <Wrapper>
+            <Helmet>
+                <meta charSet={"utf-8"}/>
+                <title>Create Room</title>
+            </Helmet>
             <List>
                 {users.map(({id, username, nickname, avatar}) => id !== me.id &&
                     <Friend key={id} onClick={()=>handleClick(id)} isClicked={userIds.includes(id)}>

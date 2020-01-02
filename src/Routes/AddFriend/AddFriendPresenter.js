@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import {Helmet} from "react-helmet";
 
 const Wrapper = styled.div`
   width: 50vh;
@@ -61,6 +62,10 @@ const AddBtn = styled.div`
 const AddFriendPresenter = ({users, me, handleClick}) => {
     return (
         <Wrapper>
+            <Helmet>
+                <meta charSet={"utf-8"}/>
+                <title>Add Friend</title>
+            </Helmet>
             <List>
             {users.map(({id, username, nickname, avatar}) => id !== me.id &&
                 <Friend key={id}>
