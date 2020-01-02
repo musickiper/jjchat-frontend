@@ -124,7 +124,7 @@ const RoomContainer = ({match, history}) => {
     // Parsing date
     const parseTime = (date) => {
         const d = new Date(date);
-        return [d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()];
+        return [d.getMonth() + 1, d.getDate(), d.getHours(), d.getMinutes()];
     };
 
     // When participants exist => initial data has set up

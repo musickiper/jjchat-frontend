@@ -30,7 +30,7 @@ const RoomsContainer = ({history}) => {
 
     const parseDate = (date) => {
         const d = new Date(date);
-        return `${d.getMonth()}/${d.getDate()}`;
+        return `${d.getMonth()+1}/${d.getDate()}`;
     };
 
     if (!loading && data.myRooms) {
