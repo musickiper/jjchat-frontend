@@ -26,12 +26,12 @@ const authLink = setContext((_, {headers}) => {
 
 // Create an http link:
 const httpLink = new HttpLink({
-    uri: 'http://localhost:4000/'
+    uri: process.env.HTTP_LINK
 });
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-    uri: `ws://localhost:4000/`,
+    uri: process.env.WS_LINK,
     options: {
         reconnect: true
     }
